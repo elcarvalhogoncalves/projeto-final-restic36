@@ -16,7 +16,7 @@ import Logo from '../../components/Logo';
 import theme from '../../theme';
 import { Button } from '../../components/Button';
 
-import {VagaProps} from '../../utils/Types';
+import { VagaProps } from '../../utils/Types';
 
 export default function Details({route, navigation }) {
 
@@ -28,11 +28,11 @@ export default function Details({route, navigation }) {
             const response = await api.get(`/vagas/${id}`);
                 const data = response.data;
                 setVaga({
-                id: data.id
-                title: data.titulo
-                date: data.dataCadastro
-                description: data.descricao
-                phone: data.telefone
+                id: data.id,
+                title: data.titulo,
+                date: data.dataCadastro,
+                description: data.descricao,
+                phone: data.telefone,
                 company: data.empresa
                 })
         }catch(error){

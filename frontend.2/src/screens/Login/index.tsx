@@ -1,6 +1,6 @@
 import { Image } from 'react-native';
 import {useState} from 'react';
-import api from '../../service/api';
+import api from '../../services/api';
 import { Wrapper,Container, Form, TextContainer, TextBlack, TextLink, TextLinkContainer } from './styles';
 
 
@@ -15,7 +15,7 @@ export default function Login({ navigation }) {
     const [senha, setSenha] = useState('');
     const handleLogin = async () => {
         try{
-            const reponse = await api.get('/usuarios')
+            const response = await api.get('/usuarios')
             const users = response.data;
             const user = users.find(u => u.email===email && u.senha===senha);
             if(user){
