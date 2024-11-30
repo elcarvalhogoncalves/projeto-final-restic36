@@ -1,69 +1,65 @@
-const db = require('../database/databaseConfig');
-const Vaga = require('../models/Vaga');
-
-async function create(dados) {
-    try {
-        Vaga.validarDados(dados);
-        const vaga = new Vaga(dados);
-
-        const query = `
-            INSERT INTO vagas (id, descricao, titulo, dataCadastro, telefone, empresa)
-            VALUES (?, ?, ?, ?, ?, ?)
-        `;
-        await new Promise((resolve, reject) =>
-            db.run(query, [vaga.id, vaga.descricao, vaga.titulo, vaga.dataCadastro, vaga.telefone, vaga.empresa], function (err) {
-                if (err) reject(err);
-                else resolve();
-            })
-        );
-
-        return vaga.toJSON();
-    } catch (error) {
-        throw new Error(`Erro ao criar vaga: ${error.message}`);
-    }
-}
-
-async function update(id, dados) {
-    try {
-        Vaga.validarDados(dados);
-
-        const query = `
-            UPDATE vagas
-            SET descricao = ?, titulo = ?, dataCadastro = ?, telefone = ?, empresa = ?
-            WHERE id = ?
-        `;
-
-        await new Promise((resolve, reject) =>
-            db.run(query, [dados.descricao, dados.titulo, dados.dataCadastro, dados.telefone, dados.empresa, id], function (err) {
-                if (err) reject(err);
-                else resolve();
-            })
-        );
-
-        return { id, ...dados };
-    } catch (error) {
-        throw new Error(`Erro ao atualizar vaga: ${error.message}`);
-    }
-}
+const Vaga = require('../models/vaga');
 
 async function findAll() {
-    const query = `SELECT * FROM vagas`;
-    return new Promise((resolve, reject) =>
-        db.all(query, [], (err, rows) => {
-            if (err) reject(err);
-            else resolve(rows);
-        })
-    );
+  try {
+    return await Vaga.findAll();
+  } catch (error) {
+    throw new Error('Error fetching all jobs: ' + error.message);
+  }
+}
+
+async function findById(id) {
+  try {
+    return await Vaga.findByPk(id);
+  } catch (error) {
+    throw new Error('Error fetching job by id: ' + error.message);
+  }
+}
+
+async function create({ titulo, descricao, dataCadastro, telefone, status, empresa }) {
+  try {
+    return await Vaga.create({ titulo, descricao, dataCadastro, telefone, status, empresa });
+  } catch (error) {
+    throw new Error('Error creating job: ' + error.message);
+  }
+}
+
+async function update(id, { titulo, descricao, dataCadastro, telefone, status, empresa }) {
+  try {
+    const vaga = await vaga.findByPk(id);
+    if (vaga) {
+      vaga.titulo = titulo;
+      vaga.descricao = descricao;
+      vaga.dataCadastro = dataCadastro;
+      vaga.telefone = telefone;
+      vaga.status = status;
+      vaga.empresa = empresa;
+      await vaga.save();
+      return vaga;
+    }
+    return null;
+  } catch (error) {
+    throw new Error('Error updating job: ' + error.message);
+  }
 }
 
 async function remove(id) {
-    const query = `DELETE FROM vagas WHERE id = ?`;
-    return new Promise((resolve, reject) =>
-        db.run(query, [id], function (err) {
-            if (err) reject(err);
-            else resolve(this.changes > 0);
-        })
-    );
+  try {
+    const job = await Vaga.findByPk(id);
+    if (job) {
+      await job.destroy();
+      return job;
+    }
+    return null;
+  } catch (error) {
+    throw new Error('Error deleting job: ' + error.message);
+  }
 }
 
-module.exports = { create, update, findAll, remove };
+module.exports = {
+  findAll,
+  findById,
+  create,
+  update,
+  remove,
+};
