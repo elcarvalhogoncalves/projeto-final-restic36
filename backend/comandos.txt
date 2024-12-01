@@ -1,7 +1,0 @@
-npm init 
-npm i --save-dev nodemon
-
--- Adicionar no package.json
-script:{
-    "start": "nodemon --exec node api.js"
-}
