@@ -6,7 +6,7 @@ Este projeto é dividido em duas partes principais: **Frontend** e **Backend**. 
 
 ## Estrutura do Projeto
 
-- **`frontend/`**: Contém o código do cliente (React Native).
+- **`frontend.2/`**: Contém o código do cliente (React Native).
 - **`backend/`**: Contém o código do servidor, utilizando o `json-server`.
 
 ---
@@ -50,7 +50,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
 1. Navegue até a pasta do frontend:
    ```bash
-   cd frontend
+   cd frontend.2
    ```
 2. Instale as dependências:
    ```bash
@@ -64,4 +64,4 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 ## Notas
 - O **`json-server`** utiliza o arquivo **`db.json`** no diretório do backend para simular a API. Certifique-se de que ele está configurado corretamente com os dados iniciais necessários.
 - Certifique-se de que o backend esteja em execução antes de usar o frontend, para garantir que os endpoints estejam acessíveis.
-- Certifique-se substituir a url do arquivo **`./frontend/src/services/api.ts`**, para o seu IP, assim o frontend irá conseguir fazer conexão com o backend.
+- Certifique-se substituir a url do arquivo **`./frontend.2/src/services/api.ts`**, para o seu IP, assim o frontend irá conseguir fazer conexão com o backend.
