@@ -1,5 +1,5 @@
 import { Image } from 'react-native';
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import api from '../../services/api';
 import { Wrapper,Container, Form, TextContainer, TextBlack, TextLink, TextLinkContainer } from './styles';
 
@@ -8,20 +8,33 @@ import BGTop from '../../assets/BGTop.png';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import { Button } from '../../components/Button';
+import { AppContext } from '../../utils/context';
+import { Text } from 'react-native';
 
 export default function Login({ navigation }) {
-
+    const {login, user} = useContext(AppContext);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [erro, setErro] = useState(false);
+
+    useEffect(() => {
+        if( user ){
+            navigation.navigate('Auth', {screen:'Home'})
+        }
+    }, []);
+
+
     const handleLogin = async () => {
         try{
             const response = await api.get('/usuarios')
             const users = response.data;
             const user = users.find(u => u.email===email && u.senha===senha);
             if(user){
+                login(user);
                 navigation.navigate('Auth', {screen:'Home'})
 
             }else{
+                setErro(true);
                 console.log("Falha no login.")
             }
         } catch(error){
@@ -36,6 +49,7 @@ export default function Login({ navigation }) {
 
                 <Form>
                     <Logo />
+                    {erro && <Text>Usuário ou senha inválidos</Text>}
                     <Input 
                         label='E-mail' 
                         placeholder='digite seu e-mail'

@@ -12,6 +12,8 @@ import FormScreen  from './src/screens/Form';
 import List  from './src/screens/List';
 import Profile  from './src/screens/Profile';
 import Details  from './src/screens/Details';
+import ContextProvider from './src/utils/context';
+import { Logout } from './src/screens/Logout';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -21,15 +23,17 @@ function Auth(){
   
   return (
     <Tab.Navigator
-    screenOptions={({ route }) => ({
+      screenOptions={({ route }) => ({
       headerShown: false,
       tabBarIcon: ({ focused, color }) => {
-      let iconName: "home" | "home-outline" | "person"|"person-outline";
+      let iconName: "home" | "home-outline" | "person"|"person-outline" | "exit";
 
         if (route.name === 'Home') {
           iconName = focused ? "home" : "home-outline";
         } else if (route.name === 'Profile') {
           iconName = focused ? "person" : "person-outline";
+        } else if (route.name === 'Logout') {
+          iconName = "exit";
         }
 
         return <Ionicons name={iconName} size={16} color={color} />;
@@ -53,6 +57,7 @@ function Auth(){
           )}
       </Tab.Screen>
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Logout" component={Logout} />
     </Tab.Navigator>
   )
 }
@@ -60,16 +65,18 @@ function Auth(){
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="FormScreen" component={FormScreen} />
-          <Stack.Screen name="Auth" component={Auth} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <ContextProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar style="auto" />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="FormScreen" component={FormScreen} />
+            <Stack.Screen name="Auth" component={Auth} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </ContextProvider>
   );
 }
 

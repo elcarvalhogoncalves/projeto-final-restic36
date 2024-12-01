@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Image, FlatList, View, Text } from 'react-native';
 import api from '../../services/api';
 import { Wrapper,Container, ListContainer, TextVagas } from './styles';
 import BGTop from '../../assets/BGTop.png';
 import Logo from '../../components/Logo';
 import VagaCard from '../../components/VagaCard';
+import { AppContext } from '../../utils/context';
 
 
-export default function List() {
-
+export default function List({navigation}) {
+    const {isLoggedIn, user} = useContext(AppContext);
     const [vagas, setVagas] = useState([]);
     const[isLoading, setIsLoading] = useState(true);
 
@@ -26,51 +27,6 @@ export default function List() {
 
       fetchVagas();
     }, []);
-
-    const DATA = [
-        {
-          "id": 1,
-          "titulo": "Desenvolvedor Front-end",
-          "data_cadastro": "2024-06-21",
-          "empresa": "Tech Solutions"
-        },
-        {
-          "id": 2,
-          "titulo": "Analista de Dados",
-          "data_cadastro": "2024-06-18",
-          "empresa": "Data Insights"
-        },
-        {
-          "id": 3,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 4,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 5,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 6,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 7,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        }
-      ]
 
     return (
         <Wrapper>

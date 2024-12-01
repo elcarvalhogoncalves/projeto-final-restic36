@@ -7,6 +7,13 @@ export type VagaProps = {
     company: String;
 };
 
+export type UserProps = {
+    id: number;
+    nome: String;
+    email: String;
+    senha: String;
+};
+
 export type RootStackParamList = {
     Login: undefined;
     FormScreen: undefined;
